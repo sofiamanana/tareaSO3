@@ -5,21 +5,33 @@ import java.util.Scanner;
 class Func extends Thread{
     public String n_func;
     public Integer cantidad;
-    public ArrayList nom_f;
-    public ArrayList funciones;
-    public ArrayList array_thr;
+    public Integer i;
+    public ArrayList<String> nom_f;
+    public ArrayList<String> funciones;
+    public ArrayList<Thread> array_thr;
     public String resultado;
 
-    public Func (String n_func, ArrayList nom_f, ArrayList funciones, Integer cantidad, ArrayList array_thr){
+    public Func (String n_func, ArrayList<String> nom_f, ArrayList<String> funciones, Integer cantidad, ArrayList<Thread> array_thr, Integer i){
         this.cantidad = cantidad;
         this.funciones = funciones;
         this.n_func = n_func;
         this.nom_f = nom_f;
         this.array_thr = array_thr;
+        this.i = i;
     }
 
     public void run(){
-        System.out.println("MyThread running");
+        System.out.println("LLEGO");
+        String func_e = funciones.get(i);
+        System.out.println(func_e);
+        Integer cont = 0;
+        while(cont!=1){
+            if(func_e.contains("*")){
+                
+            }
+        }
+
+
      }
 }
 
@@ -48,6 +60,8 @@ public class func {
             funciones.add(parts[1]);
             
         }
+
+        System.out.println(funciones.get(0));
         
         Scanner input = new Scanner (System.in);
         String a = "";
@@ -68,7 +82,7 @@ public class func {
 
                 for(int i = 0; i<nom_f.size()-1; i++){
                     if(n_func.equals(nom_f.get(i))){
-                        Func hebra = new Func(n_func, nom_f, funciones, cantidad, array_thr);
+                        Func hebra = new Func(n_func, nom_f, funciones, cantidad, array_thr,i);
                         hebra.start();
                         hebra.join();
                     }
