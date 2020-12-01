@@ -1,0 +1,6 @@
+5
+f(x)=g(x)*h(x)
+g(x)=(h(x)+1)/2
+h(x)=(2*x)+1
+z(x)=f(x)+h(x)
+gato(x)=f(x)+g(x)
