@@ -1,7 +1,7 @@
-tienda:	tienda.java
-	javac tienda.java
-	java tienda
-
 funciones: func.java
 	javac func.java
-	java func
+	java fun
+
+algo: algo.java
+	javac algo.java
+	java algo
