@@ -15,9 +15,10 @@ class Hebra extends Thread{
     public Integer resultado;
     public Integer flag;
 
-    public Hebra (Integer x, ArrayList<Integer> array){
+    public Hebra (Integer x, ArrayList<Integer> array, Integer flag){
         this.x = x;
         this.array = array;
+        this.flag = flag;
     }
 
     public void run(){
@@ -27,42 +28,41 @@ class Hebra extends Thread{
         Integer n = array.size();
         while( n != 1){
             Integer med = n/2;
-            if(x == array.get(med) || x==array.get(med-1)){
-                //***************************************************/
+            if(x == array.get(med) && flag == 0){
                 System.out.println("El elemento esta en el arreglo");
                 resultado = 1;
                 flag = 1;
-                break;
+                return;
             }
-            else if(x <= array.get(med-1)){
+            else if(x <= array.get(med-1) && flag == 0){
                 ArrayList<Integer> left = new ArrayList<Integer>();
                 for(int i = 0; i<med; i++){
                     left.add(array.get(i));
                 }
-                Hebra leftH = new Hebra(x,left);
+                Hebra leftH = new Hebra(x,left,flag);
                 leftH.start();
                 try{
                     leftH.join();
                     if(leftH.resultado == 1){
                         flag = 1;
-                        break;
+                        return;
                     }
                 }catch (InterruptedException ex) {
                     Logger.getLogger(Hebra.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            else if(x >= array.get(med-1)){
+            else if(x >= array.get(med-1) && flag == 0){
                 ArrayList<Integer> right = new ArrayList<Integer>();
                 for(int i = med; i<n; i++){
                     right.add(array.get(i));
                 }
-                Hebra rightH = new Hebra(x,right);
+                Hebra rightH = new Hebra(x,right,flag);
                 rightH.start();
                 try{
                     rightH.join();
                     if(rightH.resultado == 1){
                         flag = 1;
-                        break;
+                        return;
                     }
                 }catch (InterruptedException ex) {
                     Logger.getLogger(Hebra.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,19 +73,56 @@ class Hebra extends Thread{
     }
 }
 
-public class algo {
+public class Algo {
+    public static Integer flag;
+    int binarySearch(int arr[], int l, int r, int x) 
+    { 
+        if (r >= l) { 
+            int mid = l + (r - l) / 2; 
+            if (arr[mid] == x) 
+                return mid; 
+            if (arr[mid] > x) 
+                return binarySearch(arr, l, mid - 1, x); 
+            return binarySearch(arr, mid + 1, r, x); 
+        } 
+        return -1; 
+    } 
     public static void main(String[] args) throws FileNotFoundException, InterruptedException, ScriptException{
-        Integer x = 4;
+        System.out.println("Busqueda binaria con threads:");
+        long TInicio1, TFin1, tiempo1; 
+        TInicio1 = System.currentTimeMillis();  
+        flag = 33;
+        Integer y = 1;
         ArrayList<Integer> array = new ArrayList<Integer>();
-        for(int i = 0; i<5; i++){
+        for(int i = 0; i<11; i++){
             array.add(i);
         }
-        System.out.println(array);
-        Hebra hebra = new Hebra(x,array);
+        Hebra hebra = new Hebra(y,array,flag);
         hebra.start();
         hebra.join();
         if(hebra.flag == 0){
             System.out.println("El elemento no esta en el arreglo");
         }
+        TFin1 = System.currentTimeMillis(); 
+        tiempo1 = TFin1 - TInicio1;
+        System.out.println("Tiempo de ejecución en milisegundos: " + tiempo1);
+
+        //////////////////////////////////////////////////////////////////////////
+
+        System.out.println("Busqueda binaria sin threads:");
+        long TInicio, TFin, tiempo; 
+        TInicio = System.currentTimeMillis();  
+        Algo ob = new Algo(); 
+        int arr[] = { 0,1,2,3,4}; 
+        int n = arr.length; 
+        int x = 1; 
+        int result = ob.binarySearch(arr, 0, n - 1, x); 
+        if (result == -1) 
+            System.out.println("El elemento no esta en el arreglo"); 
+        else
+            System.out.println("El elemento esta en el arreglo"); 
+        TFin = System.currentTimeMillis(); 
+        tiempo = TFin - TInicio;
+        System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
     }
 }

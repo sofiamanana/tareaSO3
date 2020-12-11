@@ -1,7 +1,7 @@
-funciones: func.java
+func: func.java
 	javac func.java
 	java fun
 
-algo: algo.java
-	javac algo.java
-	java algo
+algo: Algo.java
+	javac Algo.java
+	java Algo

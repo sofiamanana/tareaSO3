@@ -44,25 +44,47 @@ class Func extends Thread{
                     }
                 }
             }
-            /*
-            try{
-                String[] div2 = div[i].split("\\(");
-                for(int k = 0; k<nom_f.size()-1; k++){
-                    if(div2[0].equals(nom_f.get(k))){
-                        Func hebra = new Func(div2[0], nom_f, funciones, cantidad, array_thr,k);
-                        hebra.start();
-                        hebra.join();
-                        System.out.println(hebra.resultado);
-                    }
-                }
-
-            }catch (InterruptedException ex) {
-            Logger.getLogger(Func.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+            
         }
-        
 
+        /****************************************************************** 
+        int contador;
+        String algo = "kqkqkqkq";
+        String [] split;
+        String pedido = (String) funciones.get(posibles.indexOf(eleccion));
+        String[] dividir = pedido.split("[\\*\\+\\-\\/]");
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("js");
 
+        for(contador = 0; contador < dividir.length; contador++){
+            String variable = String.valueOf(dividir[contador].charAt(0));
+            Pattern pat = Pattern.compile("[a-w y-z]+");  //BUSCA FUNCIONES EN ECUACION
+            Matcher mat = pat.matcher(dividir[contador]);
+              if (mat.find()) {
+                algo = mat.group();
+              }
+
+            if(posibles.contains(algo)){
+                Funcion hebra = new Funcion(algo, funciones, posibles, numero, funciones_lista);
+                hebra.start(); 
+                try {
+                    hebra.join();
+                    pedido = pedido.replace(algo + "(x)", hebra.resultado);
+                algo = "kqkqkqkq";
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Funcion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        engine.put("x", numero);
+        Object operation = null;
+        try {
+            operation = engine.eval(pedido);
+        } catch (ScriptException ex) {
+            Logger.getLogger(Funcion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        resultado = Double.toString((double) operation);
+        ***************************************************************** */
         
         Integer resultado = 0;
      }
@@ -124,7 +146,6 @@ public class func {
                 }
             }
         }
-
 
         sc.close();
     }
